@@ -24,6 +24,10 @@ logs/
 Thumbs.db
 
 .claude/
+CLAUDE.md
+
+# Local docs / scratch (existing tracked files like docs/ssms-setup.sql stay tracked)
+docs/
 
 # Spring Boot
 HELP.md
