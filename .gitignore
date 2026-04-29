@@ -1,0 +1,47 @@
+# Build output
+target/
+build/
+out/
+bin/
+
+# IDE
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+.project
+.classpath
+.settings/
+.factorypath
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+.claude/
+
+# Spring Boot
+HELP.md
+
+# Local env / secrets
+*.local.properties
+*.local.yml
+.env
+.env.local
+
+# Maven wrapper (uncomment if you want to keep it out)
+# .mvn/
+# mvnw
+# mvnw.cmd
+
+# Generated sources (we'll regenerate on each build)
+**/generated-sources/
+
+# Misc
+*.bak
+*.tmp
