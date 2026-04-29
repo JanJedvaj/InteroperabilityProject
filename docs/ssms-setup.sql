@@ -1,16 +1,35 @@
 -- Interoperability project — SQL Server one-time setup.
--- Run this once in SSMS before booting the application for the first time.
+-- Idempotent: safe to re-run. Requires Mixed Mode authentication enabled
+-- on the SQL Server instance (Server → Properties → Security →
+-- "SQL Server and Windows Authentication mode", then restart the service).
 
-CREATE DATABASE BooksDb;
+IF NOT EXISTS (SELECT 1 FROM sys.databases WHERE name = N'BooksDb')
+    CREATE DATABASE BooksDb;
 GO
 
 USE BooksDb;
 GO
 
--- Dedicated SQL login used by the application.
--- If your local instance only allows Windows authentication, switch SQL Server
--- to "Mixed Mode" first or change application.yml to use integrated security.
-CREATE LOGIN books_user WITH PASSWORD = 'StrongP@ssw0rd!', CHECK_POLICY = OFF;
-CREATE USER  books_user FOR LOGIN books_user;
+IF EXISTS (SELECT 1 FROM sys.database_principals WHERE name = N'books_user')
+    DROP USER books_user;
+GO
+
+USE master;
+GO
+
+IF EXISTS (SELECT 1 FROM sys.server_principals WHERE name = N'books_user')
+    DROP LOGIN books_user;
+GO
+
+CREATE LOGIN books_user
+    WITH PASSWORD       = 'StrongP@ssw0rd!',
+         CHECK_POLICY    = OFF,
+         CHECK_EXPIRATION = OFF;
+GO
+
+USE BooksDb;
+GO
+
+CREATE USER books_user FOR LOGIN books_user;
 ALTER ROLE db_owner ADD MEMBER books_user;
 GO

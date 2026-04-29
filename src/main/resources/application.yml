@@ -1,11 +1,17 @@
 spring:
   application:
     name: books-interoperability
-  # Datasource configuration is added in commit 2 (MS SQL Server).
-  autoconfigure:
-    exclude:
-      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
-      - org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
+  datasource:
+    url: jdbc:sqlserver://localhost:1433;databaseName=BooksDb;encrypt=true;trustServerCertificate=true
+    username: books_user
+    password: StrongP@ssw0rd!
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate.dialect: org.hibernate.dialect.SQLServerDialect
+    open-in-view: false
 
 server:
   port: 8181
@@ -23,3 +29,4 @@ logging:
   level:
     root: INFO
     hr.algebra.books: DEBUG
+    org.hibernate.SQL: DEBUG
