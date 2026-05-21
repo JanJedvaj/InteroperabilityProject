@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "hr.algebra.books.grpc.api";
+option java_outer_classname = "WeatherProto";
+
+service WeatherService {
+  // Streams matching cities with their current temperature
+  rpc FindTemperature(CityRequest) returns (stream CityTemperature);
+}
+
+message CityRequest {
+  string name_part = 1;
+}
+
+message CityTemperature {
+  string city        = 1;
+  double temperature_c = 2;
+  string measured_at = 3;
+}
