@@ -24,6 +24,11 @@ app:
   dhmz:
     url: https://vrijeme.hr/hrvatska_n.xml
     cache-ttl: PT10M
+  jwt:
+    # Base64-encoded HS256 key (min 32 bytes). Replace before going to production.
+    secret: aW50ZXJvcC1wcm9qZWN0LXNlY3JldC1rZXktMjAyNi1hbGdlYnJhLWJvb2tz
+    access-ttl: PT15M
+    refresh-ttl: P7D
 
 management:
   endpoints:
