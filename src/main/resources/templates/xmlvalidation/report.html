@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
+<head th:replace="~{layout/layout :: head('XML Validation')}"></head>
+<body>
+
+<nav th:replace="~{layout/layout :: nav}"></nav>
+
+<div class="container-xl main-content">
+
+    <div class="page-header">
+        <h1><i class="bi bi-shield-check me-2 text-primary"></i>XML Validation Report</h1>
+    </div>
+
+    <!-- Validation result banner -->
+    <div th:if="${report != null}" class="mb-4">
+        <span th:if="${report.valid()}" class="validation-result valid">
+            <i class="bi bi-check-circle-fill"></i> Valid
+        </span>
+        <span th:unless="${report.valid()}" class="validation-result invalid">
+            <i class="bi bi-x-circle-fill"></i> Invalid —
+            <span th:text="${report.errors().size()}">0</span> error(s)
+        </span>
+    </div>
+
+    <!-- Errors table -->
+    <div th:if="${report != null and !report.valid()}" class="card mb-4">
+        <div class="card-header text-danger">
+            <i class="bi bi-bug me-2"></i>Validation Errors
+            <span class="badge bg-danger ms-1" th:text="${report.errors().size()}">0</span>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-sm mb-0">
+                <thead>
+                <tr>
+                    <th style="width:80px;">Line</th>
+                    <th style="width:80px;">Col</th>
+                    <th style="width:110px;">Severity</th>
+                    <th>Message</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="e : ${report.errors()}">
+                    <td th:text="${e.line()}">0</td>
+                    <td th:text="${e.column()}">0</td>
+                    <td>
+                        <span class="badge"
+                              th:classappend="${e.severity() == 'FATAL'} ? 'sev-fatal' : (${e.severity() == 'ERROR'} ? 'sev-error' : 'sev-warning')"
+                              th:text="${e.severity()}"></span>
+                    </td>
+                    <td style="font-size:.82rem;" th:text="${e.message()}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Form + XML preview side by side -->
+    <div class="row g-4">
+
+        <!-- Form -->
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header">
+                    <i class="bi bi-code-slash me-2"></i>Enter XML to Validate
+                </div>
+                <div class="card-body">
+                    <form th:action="@{/validation}" method="post">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+                        <div class="mb-3">
+                            <label for="xmlInput" class="form-label">
+                                XML content <span class="text-muted" style="font-size:.8rem;">(validated against book.xsd)</span>
+                            </label>
+                            <textarea id="xmlInput" name="xmlInput"
+                                      class="form-control font-monospace" rows="14"
+                                      placeholder="&lt;book&gt;&#10;  &lt;title&gt;My Book&lt;/title&gt;&#10;  ...&#10;&lt;/book&gt;"
+                                      th:text="${xmlInput}"></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="bi bi-play-fill me-1"></i>Validate
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Preview -->
+        <div class="col-lg-6" th:if="${report != null}">
+            <div class="card h-100">
+                <div class="card-header">
+                    <i class="bi bi-file-earmark-code me-2"></i>XML Preview
+                </div>
+                <div class="card-body p-0">
+                    <pre class="xml-preview m-0 rounded-0" style="border-radius:0 0 var(--radius) var(--radius);"
+                         th:text="${report.xmlPreview()}"></pre>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<div th:replace="~{layout/layout :: scripts}"></div>
+</body>
+</html>
