@@ -1,0 +1,28 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;MODE=MSSQLServer
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate.dialect: org.hibernate.dialect.H2Dialect
+    open-in-view: false
+
+grpc:
+  server:
+    port: 0  # disable gRPC server in tests
+
+app:
+  dhmz:
+    url: https://vrijeme.hr/hrvatska_n.xml
+    cache-ttl: PT10M
+  jwt:
+    secret: aW50ZXJvcC1wcm9qZWN0LXNlY3JldC1rZXktMjAyNi1hbGdlYnJhLWJvb2tz
+    access-ttl: PT15M
+    refresh-ttl: P7D
+  api:
+    mode: CUSTOM
+    public-base-url: https://fakerestapi.azurewebsites.net/api/v1

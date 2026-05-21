@@ -1,0 +1,438 @@
+{
+  "info": {
+    "name": "InteropBooks",
+    "_postman_id": "interop-books-collection-v1",
+    "description": "Algebra Interoperability Project — Books (Theme #9). Run against localhost:8181.\n\nWorkflow:\n1. Run 'Auth / Login as admin' — accessToken is saved automatically to the collection variable.\n2. All authenticated requests use {{accessToken}} from the Authorization header.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl",      "value": "http://localhost:8181",    "type": "string" },
+    { "key": "accessToken",  "value": "",                          "type": "string" },
+    { "key": "refreshToken", "value": "",                          "type": "string" },
+    { "key": "bookId",       "value": "1",                         "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login as admin",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var json = pm.response.json();",
+                  "pm.collectionVariables.set('accessToken', json.accessToken);",
+                  "pm.collectionVariables.set('refreshToken', json.refreshToken);",
+                  "pm.test('Login successful', () => pm.response.to.have.status(200));",
+                  "pm.test('accessToken present', () => pm.expect(json.accessToken).to.not.be.empty);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"admin\",\n  \"password\": \"admin123\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/auth/login", "host": ["{{baseUrl}}"], "path": ["api","auth","login"] }
+          }
+        },
+        {
+          "name": "Login as reader",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"reader\",\n  \"password\": \"reader123\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/auth/login", "host": ["{{baseUrl}}"], "path": ["api","auth","login"] }
+          }
+        },
+        {
+          "name": "Refresh token",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refreshToken\": \"{{refreshToken}}\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/auth/refresh", "host": ["{{baseUrl}}"], "path": ["api","auth","refresh"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Books REST",
+      "item": [
+        {
+          "name": "List all books",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Returns array', () => pm.expect(pm.response.json()).to.be.an('array'));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/api/v1/books", "host": ["{{baseUrl}}"], "path": ["api","v1","books"] }
+          }
+        },
+        {
+          "name": "Search books by term",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/books?term=clean",
+              "host": ["{{baseUrl}}"],
+              "path": ["api","v1","books"],
+              "query": [{ "key": "term", "value": "clean" }]
+            }
+          }
+        },
+        {
+          "name": "Get book by ID",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/api/v1/books/{{bookId}}", "host": ["{{baseUrl}}"], "path": ["api","v1","books","{{bookId}}"] }
+          }
+        },
+        {
+          "name": "Create book (admin)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 201', () => pm.response.to.have.status(201));",
+                  "var json = pm.response.json();",
+                  "pm.collectionVariables.set('bookId', json.id);",
+                  "pm.test('ID assigned', () => pm.expect(json.id).to.be.a('number'));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Postman Test Book\",\n  \"description\": \"Created via Postman\",\n  \"pageCount\": 250,\n  \"excerpt\": \"First chapter\",\n  \"publishDate\": \"2024-06-01T00:00:00Z\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/v1/books", "host": ["{{baseUrl}}"], "path": ["api","v1","books"] }
+          }
+        },
+        {
+          "name": "Update book (admin)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Updated via Postman\",\n  \"pageCount\": 300\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/v1/books/{{bookId}}", "host": ["{{baseUrl}}"], "path": ["api","v1","books","{{bookId}}"] }
+          }
+        },
+        {
+          "name": "Delete book (admin)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 204', () => pm.response.to.have.status(204));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+            "url": { "raw": "{{baseUrl}}/api/v1/books/{{bookId}}", "host": ["{{baseUrl}}"], "path": ["api","v1","books","{{bookId}}"] }
+          }
+        },
+        {
+          "name": "Create book (reader) — expect 403",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Forbidden for reader', () => pm.response.to.have.status(403));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer READER_TOKEN_HERE" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"title\": \"Should Fail\",\n  \"pageCount\": 1\n}" },
+            "url": { "raw": "{{baseUrl}}/api/v1/books", "host": ["{{baseUrl}}"], "path": ["api","v1","books"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "XML Validation",
+      "item": [
+        {
+          "name": "Validate valid XML",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('valid = true', () => pm.expect(pm.response.json().valid).to.be.true);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/xml" },
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<book>\n  <title>Clean Code</title>\n  <pageCount>431</pageCount>\n</book>"
+            },
+            "url": { "raw": "{{baseUrl}}/api/v1/validate-xml", "host": ["{{baseUrl}}"], "path": ["api","v1","validate-xml"] }
+          }
+        },
+        {
+          "name": "Validate invalid XML (missing title)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('valid = false', () => pm.expect(pm.response.json().valid).to.be.false);",
+                  "pm.test('errors present', () => pm.expect(pm.response.json().errors.length).to.be.above(0));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/xml" },
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "<book><pageCount>100</pageCount></book>"
+            },
+            "url": { "raw": "{{baseUrl}}/api/v1/validate-xml", "host": ["{{baseUrl}}"], "path": ["api","v1","validate-xml"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "SOAP Search",
+      "item": [
+        {
+          "name": "Search books by term (SOAP)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "text/xml; charset=utf-8" },
+              { "key": "SOAPAction", "value": "" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:b=\"http://algebra.hr/books/soap\">\n  <soapenv:Header/>\n  <soapenv:Body>\n    <b:searchBooksByTermRequest>\n      <b:term>clean</b:term>\n    </b:searchBooksByTermRequest>\n  </soapenv:Body>\n</soapenv:Envelope>"
+            },
+            "url": { "raw": "{{baseUrl}}/ws", "host": ["{{baseUrl}}"], "path": ["ws"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "GraphQL",
+      "item": [
+        {
+          "name": "Query — list books",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('No errors', () => pm.expect(pm.response.json().errors).to.be.undefined);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"{ books { id title pageCount } }\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/graphql", "host": ["{{baseUrl}}"], "path": ["graphql"] }
+          }
+        },
+        {
+          "name": "Mutation — create book",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"mutation { createBook(input: { title: \\\"GraphQL Book\\\", pageCount: 150 }) { id title } }\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/graphql", "host": ["{{baseUrl}}"], "path": ["graphql"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "API Mode Switch",
+      "item": [
+        {
+          "name": "Get current mode",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+            "url": { "raw": "{{baseUrl}}/api/v1/mode", "host": ["{{baseUrl}}"], "path": ["api","v1","mode"] }
+          }
+        },
+        {
+          "name": "Switch to PUBLIC (FakeRESTAPI)",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/mode?mode=PUBLIC",
+              "host": ["{{baseUrl}}"],
+              "path": ["api","v1","mode"],
+              "query": [{ "key": "mode", "value": "PUBLIC" }]
+            }
+          }
+        },
+        {
+          "name": "Switch to CUSTOM (local DB)",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/mode?mode=CUSTOM",
+              "host": ["{{baseUrl}}"],
+              "path": ["api","v1","mode"],
+              "query": [{ "key": "mode", "value": "CUSTOM" }]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Import",
+      "item": [
+        {
+          "name": "Import valid XML",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": "src/main/resources/samples/book-valid.xml",
+                  "description": "Adjust path to your local checkout"
+                }
+              ]
+            },
+            "url": { "raw": "{{baseUrl}}/api/v1/import", "host": ["{{baseUrl}}"], "path": ["api","v1","import"] }
+          }
+        },
+        {
+          "name": "Import invalid XML (expect 422)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 422', () => pm.response.to.have.status(422));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": "src/main/resources/samples/book-invalid.xml"
+                }
+              ]
+            },
+            "url": { "raw": "{{baseUrl}}/api/v1/import", "host": ["{{baseUrl}}"], "path": ["api","v1","import"] }
+          }
+        },
+        {
+          "name": "Import valid JSON",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": "src/main/resources/samples/book-valid.json"
+                }
+              ]
+            },
+            "url": { "raw": "{{baseUrl}}/api/v1/import", "host": ["{{baseUrl}}"], "path": ["api","v1","import"] }
+          }
+        }
+      ]
+    }
+  ]
+}
