@@ -16,6 +16,15 @@ spring:
 server:
   port: 8181
 
+grpc:
+  server:
+    port: 9090
+
+app:
+  dhmz:
+    url: https://vrijeme.hr/hrvatska_n.xml
+    cache-ttl: PT10M
+
 management:
   endpoints:
     web:
