@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -42,6 +43,7 @@ public class BookController {
         return bookService.findById(id);
     }
 
+    @PreAuthorize("hasRole('FULL')")
     @PostMapping
     public ResponseEntity<BookDto> create(@Valid @RequestBody BookDto dto) {
         BookDto created = bookService.create(dto);
@@ -53,11 +55,13 @@ public class BookController {
         return ResponseEntity.created(location).body(created);
     }
 
+    @PreAuthorize("hasRole('FULL')")
     @PutMapping("/{id}")
     public BookDto update(@PathVariable Long id, @Valid @RequestBody BookDto dto) {
         return bookService.update(id, dto);
     }
 
+    @PreAuthorize("hasRole('FULL')")
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {
