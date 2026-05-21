@@ -1,0 +1,492 @@
+/* ============================================================
+   Books Interoperability — custom stylesheet
+   Base: Bootstrap 5.3 (loaded via CDN)
+   ============================================================ */
+
+:root {
+  --navy:        #0f172a;
+  --navy-light:  #1e293b;
+  --primary:     #3b82f6;
+  --primary-dark:#2563eb;
+  --success:     #22c55e;
+  --danger:      #ef4444;
+  --warning:     #f59e0b;
+  --muted:       #64748b;
+  --surface:     #f8fafc;
+  --border:      #e2e8f0;
+  --text:        #0f172a;
+  --radius:      0.75rem;
+  --shadow-sm:   0 1px 3px 0 rgb(0 0 0 / .07), 0 1px 2px -1px rgb(0 0 0 / .07);
+  --shadow:      0 4px 6px -1px rgb(0 0 0 / .08), 0 2px 4px -2px rgb(0 0 0 / .08);
+  --shadow-md:   0 10px 15px -3px rgb(0 0 0 / .08), 0 4px 6px -4px rgb(0 0 0 / .08);
+}
+
+/* ── Body ────────────────────────────────────────────────── */
+body {
+  background-color: var(--surface);
+  color: var(--text);
+  font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  font-size: 0.9375rem;
+  min-height: 100vh;
+}
+
+/* ── Navbar ──────────────────────────────────────────────── */
+.navbar-app {
+  background-color: var(--navy) !important;
+  box-shadow: 0 1px 0 rgba(255,255,255,.06);
+  padding-top: .75rem;
+  padding-bottom: .75rem;
+}
+
+.navbar-app .navbar-brand {
+  font-weight: 700;
+  font-size: 1.15rem;
+  letter-spacing: -.015em;
+  color: #fff !important;
+}
+
+.navbar-app .nav-link {
+  color: rgba(255,255,255,.75) !important;
+  font-size: .875rem;
+  font-weight: 500;
+  padding: .375rem .75rem !important;
+  border-radius: .375rem;
+  transition: color .15s, background .15s;
+}
+
+.navbar-app .nav-link:hover,
+.navbar-app .nav-link.active {
+  color: #fff !important;
+  background: rgba(255,255,255,.08);
+}
+
+.navbar-app .navbar-toggler {
+  border-color: rgba(255,255,255,.2);
+}
+
+.navbar-app .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255%2C255%2C255%2C0.7%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* ── User / role badges in nav ───────────────────────────── */
+.badge-role-full  { background-color: #16a34a !important; font-size: .7rem; }
+.badge-role-read  { background-color: #2563eb !important; font-size: .7rem; }
+.badge-user-name  {
+  background-color: rgba(255,255,255,.12);
+  color: #fff;
+  font-size: .75rem;
+  font-weight: 500;
+  padding: .25rem .6rem;
+  border-radius: 999px;
+}
+
+/* ── Main content wrapper ────────────────────────────────── */
+.main-content {
+  padding-top: 2rem;
+  padding-bottom: 3rem;
+}
+
+/* ── Page header ─────────────────────────────────────────── */
+.page-header {
+  margin-bottom: 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: .75rem;
+}
+
+.page-header h1 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -.02em;
+  margin: 0;
+}
+
+/* ── Cards ───────────────────────────────────────────────── */
+.card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  background: #fff;
+}
+
+.card-header {
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+  padding: 1rem 1.25rem;
+  font-weight: 600;
+}
+
+.card-body {
+  padding: 1.25rem;
+}
+
+/* Feature tiles on dashboard */
+.feature-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  background: #fff;
+  padding: 1.5rem;
+  text-decoration: none !important;
+  color: var(--text) !important;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  transition: box-shadow .15s, transform .15s, border-color .15s;
+}
+
+.feature-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+  border-color: var(--primary);
+}
+
+.feature-card .feature-icon {
+  font-size: 2rem;
+  margin-bottom: .25rem;
+}
+
+.feature-card .feature-title {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.feature-card .feature-desc {
+  font-size: .83rem;
+  color: var(--muted);
+}
+
+/* ── Tables ──────────────────────────────────────────────── */
+.table {
+  font-size: .875rem;
+  margin-bottom: 0;
+}
+
+.table thead th {
+  background-color: var(--surface);
+  color: var(--muted);
+  font-size: .75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  border-bottom: 2px solid var(--border);
+  padding: .75rem 1rem;
+  white-space: nowrap;
+}
+
+.table tbody td {
+  padding: .7rem 1rem;
+  vertical-align: middle;
+  border-bottom: 1px solid var(--border);
+}
+
+.table-hover tbody tr:hover {
+  background-color: #f0f7ff;
+}
+
+.table-wrapper {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: #fff;
+}
+
+/* ── Forms ───────────────────────────────────────────────── */
+.form-label {
+  font-weight: 500;
+  font-size: .875rem;
+  margin-bottom: .375rem;
+  color: var(--navy-light);
+}
+
+.form-control,
+.form-select {
+  border-radius: .5rem;
+  border-color: var(--border);
+  font-size: .9rem;
+  padding: .5rem .75rem;
+  transition: border-color .15s, box-shadow .15s;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(59,130,246,.15);
+}
+
+textarea.form-control {
+  resize: vertical;
+}
+
+/* ── Buttons ─────────────────────────────────────────────── */
+.btn {
+  font-weight: 500;
+  font-size: .875rem;
+  border-radius: .5rem;
+  padding: .45rem .9rem;
+  transition: all .15s;
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-dark);
+  border-color: var(--primary-dark);
+}
+
+.btn-sm {
+  font-size: .8rem;
+  padding: .3rem .65rem;
+  border-radius: .375rem;
+}
+
+.btn-icon-only {
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Badges ──────────────────────────────────────────────── */
+.mode-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  font-size: .75rem;
+  font-weight: 600;
+  padding: .3rem .7rem;
+  border-radius: 999px;
+}
+
+.mode-badge.mode-custom {
+  background-color: #dbeafe;
+  color: #1d4ed8;
+}
+
+.mode-badge.mode-public {
+  background-color: #dcfce7;
+  color: #15803d;
+}
+
+/* ── Alerts / flash messages ─────────────────────────────── */
+.alert {
+  border-radius: var(--radius);
+  border: none;
+  font-size: .9rem;
+  padding: .85rem 1.1rem;
+}
+
+.alert-success {
+  background-color: #f0fdf4;
+  color: #166534;
+  border-left: 4px solid var(--success);
+}
+
+.alert-danger {
+  background-color: #fef2f2;
+  color: #991b1b;
+  border-left: 4px solid var(--danger);
+}
+
+.alert-info {
+  background-color: #eff6ff;
+  color: #1e40af;
+  border-left: 4px solid var(--primary);
+}
+
+.alert-warning {
+  background-color: #fffbeb;
+  color: #92400e;
+  border-left: 4px solid var(--warning);
+}
+
+/* ── Login page ──────────────────────────────────────────── */
+.login-wrapper {
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--navy) 0%, #1e40af 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 420px;
+  background: #fff;
+  border-radius: 1rem;
+  box-shadow: 0 25px 50px -12px rgb(0 0 0 / .35);
+  padding: 2.5rem;
+}
+
+.login-logo {
+  text-align: center;
+  margin-bottom: 1.75rem;
+}
+
+.login-logo .logo-icon {
+  font-size: 3rem;
+  display: block;
+  margin-bottom: .5rem;
+}
+
+.login-logo h1 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: -.02em;
+  color: var(--navy);
+  margin: 0;
+}
+
+.login-logo p {
+  font-size: .82rem;
+  color: var(--muted);
+  margin: .25rem 0 0;
+}
+
+/* ── Stats / info boxes ──────────────────────────────────── */
+.stat-box {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.5rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.stat-box .stat-value {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--primary);
+  line-height: 1;
+}
+
+.stat-box .stat-label {
+  font-size: .78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  color: var(--muted);
+  margin-top: .3rem;
+}
+
+/* ── Code / pre blocks ───────────────────────────────────── */
+pre.xml-preview,
+pre.json-result {
+  background: #0f172a;
+  color: #e2e8f0;
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  font-size: .8rem;
+  max-height: 400px;
+  overflow: auto;
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+}
+
+/* ── Valid / Invalid badge ───────────────────────────────── */
+.validation-result {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  padding: .5rem 1.2rem;
+  border-radius: .5rem;
+}
+
+.validation-result.valid {
+  background: #f0fdf4;
+  color: #166534;
+}
+
+.validation-result.invalid {
+  background: #fef2f2;
+  color: #991b1b;
+}
+
+/* ── Empty state ─────────────────────────────────────────── */
+.empty-state {
+  text-align: center;
+  padding: 3rem 1.5rem;
+  color: var(--muted);
+}
+
+.empty-state .empty-icon {
+  font-size: 3rem;
+  opacity: .4;
+  display: block;
+  margin-bottom: .75rem;
+}
+
+.empty-state p {
+  font-size: .9rem;
+  margin: 0;
+}
+
+/* ── Search bar ──────────────────────────────────────────── */
+.search-group {
+  max-width: 320px;
+}
+
+/* ── Settings radio cards ────────────────────────────────── */
+.mode-option {
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.1rem 1.25rem;
+  cursor: pointer;
+  transition: border-color .15s, background .15s;
+  display: flex;
+  align-items: flex-start;
+  gap: .75rem;
+}
+
+.mode-option:has(input:checked) {
+  border-color: var(--primary);
+  background: #eff6ff;
+}
+
+.mode-option input[type=radio] {
+  margin-top: .2rem;
+  accent-color: var(--primary);
+  width: 1.1rem;
+  height: 1.1rem;
+  flex-shrink: 0;
+}
+
+.mode-option .mode-label {
+  font-weight: 600;
+  font-size: .9rem;
+}
+
+.mode-option .mode-desc {
+  font-size: .8rem;
+  color: var(--muted);
+  margin-top: .2rem;
+}
+
+/* ── Severity badges in error tables ─────────────────────── */
+.sev-warning { background: #fef3c7; color: #92400e; }
+.sev-error   { background: #fee2e2; color: #991b1b; }
+.sev-fatal   { background: #7f1d1d; color: #fca5a5; }
+
+/* ── Responsive tweaks ───────────────────────────────────── */
+@media (max-width: 768px) {
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .search-group {
+    max-width: 100%;
+    width: 100%;
+  }
+}
