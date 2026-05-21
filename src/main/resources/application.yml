@@ -29,6 +29,9 @@ app:
     secret: aW50ZXJvcC1wcm9qZWN0LXNlY3JldC1rZXktMjAyNi1hbGdlYnJhLWJvb2tz
     access-ttl: PT15M
     refresh-ttl: P7D
+  api:
+    mode: CUSTOM
+    public-base-url: https://fakerestapi.azurewebsites.net/api/v1
 
 management:
   endpoints:
