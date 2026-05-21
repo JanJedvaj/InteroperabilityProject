@@ -1,6 +1,9 @@
 spring:
   application:
     name: books-interoperability
+  graphql:
+    graphiql:
+      enabled: true
   datasource:
     url: jdbc:sqlserver://localhost:1433;databaseName=BooksDb;encrypt=true;trustServerCertificate=true
     username: books_user
