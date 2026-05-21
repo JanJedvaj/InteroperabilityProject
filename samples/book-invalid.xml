@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- INVALID: missing required <title>, pageCount is below minimum (0) -->
+<book>
+    <description>A book with no title and an invalid page count.</description>
+    <pageCount>0</pageCount>
+</book>

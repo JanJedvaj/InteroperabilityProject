@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<book>
+    <title>The Art of Clean Code</title>
+    <description>A practical guide to writing readable, maintainable software.</description>
+    <pageCount>312</pageCount>
+    <excerpt>Every programmer wants to write clean code, but not everyone agrees on what that means.</excerpt>
+    <publishDate>2024-06-01T00:00:00Z</publishDate>
+</book>
