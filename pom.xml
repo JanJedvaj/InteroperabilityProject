@@ -51,6 +51,13 @@
             <scope>runtime</scope>
         </dependency>
 
+        <!-- Feature 8: JSON Schema validation -->
+        <dependency>
+            <groupId>com.networknt</groupId>
+            <artifactId>json-schema-validator</artifactId>
+            <version>1.4.3</version>
+        </dependency>
+
         <!-- Feature 7: GraphQL -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
