@@ -26,8 +26,9 @@ Thumbs.db
 .claude/
 CLAUDE.md
 
-# Local docs / scratch (existing tracked files like docs/ssms-setup.sql stay tracked)
-docs/
+# Local docs / scratch
+docs/*
+!docs/postgres-setup.sql
 
 # Spring Boot
 HELP.md
@@ -37,6 +38,13 @@ HELP.md
 *.local.yml
 .env
 .env.local
+.env.*
+
+# Docker local overrides
+docker-compose.override.yml
+
+# Postman environments (can contain tokens)
+*.postman_environment.json
 
 # Maven wrapper (uncomment if you want to keep it out)
 # .mvn/
