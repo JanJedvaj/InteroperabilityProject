@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Book",
+  "type": "object",
+  "required": ["title"],
+  "properties": {
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Naslov knjige"
+    },
+    "description": {
+      "type": "string",
+      "description": "Opis knjige"
+    },
+    "pageCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Broj stranica"
+    },
+    "excerpt": {
+      "type": "string",
+      "description": "Izvadak iz knjige"
+    },
+    "publishDate": {
+      "type": "string",
+      "description": "Datum objave"
+    }
+  },
+  "additionalProperties": false
+}

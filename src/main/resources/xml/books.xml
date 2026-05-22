@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<books>
+  <book>
+    <id>1</id>
+    <title>Clean Code</title>
+    <description>A Handbook of Agile Software Craftsmanship</description>
+    <pageCount>464</pageCount>
+    <excerpt>Even bad code can function. But if code isn't clean, it can bring a development organization to its knees.</excerpt>
+    <publishDate>2008-08-01T00:00:00Z</publishDate>
+  </book>
+  <book>
+    <id>2</id>
+    <title>Code Complete</title>
+    <description>A Practical Handbook of Software Construction</description>
+    <pageCount>960</pageCount>
+    <excerpt>Widely considered one of the best practical guides to programming.</excerpt>
+    <publishDate>2004-06-09T00:00:00Z</publishDate>
+  </book>
+  <book>
+    <id>3</id>
+    <title>The Pragmatic Programmer</title>
+    <description>Your Journey to Mastery</description>
+    <pageCount>352</pageCount>
+    <excerpt>Straight from the trenches, The Pragmatic Programmer cuts through the increasing specialization.</excerpt>
+    <publishDate>2019-09-23T00:00:00Z</publishDate>
+  </book>
+</books>

@@ -1,0 +1,14 @@
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: booksdb
+      POSTGRES_USER: books_user
+      POSTGRES_PASSWORD: StrongP@ssw0rd!
+    ports:
+      - "5432:5432"
+    volumes:
+      - books_pgdata:/var/lib/postgresql/data
+
+volumes:
+  books_pgdata:
