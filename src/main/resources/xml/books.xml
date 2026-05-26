@@ -24,4 +24,92 @@
     <excerpt>Straight from the trenches, The Pragmatic Programmer cuts through the increasing specialization.</excerpt>
     <publishDate>2019-09-23T00:00:00Z</publishDate>
   </book>
+  <book>
+    <id>4</id>
+    <title>Nova Knjiga</title>
+    <description>Opis knjige</description>
+    <pageCount>200</pageCount>
+    <excerpt>Izvadak</excerpt>
+    <publishDate>2024-01-01T00:00:00Z</publishDate>
+  </book>
+  <book>
+    <id>5</id>
+    <title>Nova Knjiga</title>
+    <description>Opis knjige</description>
+    <pageCount>200</pageCount>
+    <excerpt>Izvadak</excerpt>
+    <publishDate/>
+  </book>
+  <book>
+    <id>6</id>
+    <title>Nova Knjiga</title>
+    <description/>
+    <pageCount>0</pageCount>
+    <excerpt/>
+    <publishDate/>
+  </book>
+  <book>
+    <id>7</id>
+    <title>Nova Knjiga</title>
+    <description>Opis</description>
+    <pageCount>200</pageCount>
+    <excerpt>Izvadak</excerpt>
+    <publishDate>2024-01-01T00:00:00Z</publishDate>
+  </book>
+  <book>
+    <id>8</id>
+    <title>Nova Knjiga</title>
+    <description>Opis</description>
+    <pageCount>200</pageCount>
+    <excerpt>Izvadak</excerpt>
+    <publishDate>2024-01-01T00:00:00Z</publishDate>
+  </book>
+  <book>
+    <id>9</id>
+    <title>Nova Knjiga</title>
+    <description>Opis</description>
+    <pageCount>200</pageCount>
+    <excerpt/>
+    <publishDate>2024-01-01T00:00:00Z</publishDate>
+  </book>
+  <book>
+    <id>10</id>
+    <title>Nova Knjiga</title>
+    <description>Opis</description>
+    <pageCount>0</pageCount>
+    <excerpt>Izvadak</excerpt>
+    <publishDate>2024-01-01T00:00:00Z</publishDate>
+  </book>
+  <book>
+    <id>11</id>
+    <title>Nova Knjiga</title>
+    <description>Opis</description>
+    <pageCount>200</pageCount>
+    <excerpt>Izvadak</excerpt>
+    <publishDate/>
+  </book>
+  <book>
+    <id>13</id>
+    <title>Nov222a Knjiga</title>
+    <description>Opis knjige</description>
+    <pageCount>200</pageCount>
+    <excerpt>Izvadak</excerpt>
+    <publishDate>2024-01-01T00:00:00Z</publishDate>
+  </book>
+  <book>
+    <id>14</id>
+    <title>Nova Knjiga</title>
+    <description>Opis</description>
+    <pageCount>200</pageCount>
+    <excerpt>Izvadak</excerpt>
+    <publishDate>2024-01-01T00:00:00Z</publishDate>
+  </book>
+  <book>
+    <id>15</id>
+    <title>GG</title>
+    <description>ggg</description>
+    <pageCount>12</pageCount>
+    <excerpt>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</excerpt>
+    <publishDate>2026-05-23T18:52:44.241647Z</publishDate>
+  </book>
 </books>

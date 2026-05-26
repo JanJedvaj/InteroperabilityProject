@@ -334,9 +334,9 @@ body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;backg
       <div class="section-tabs">
         <button class="section-tab active" onclick="showPanel('gql-all',this)">Sve knjige</button>
         <button class="section-tab" onclick="showPanel('gql-id',this)">Po ID-u</button>
-        <button class="section-tab" onclick="showPanel('gql-create',this)">Kreiraj</button>
-        <button class="section-tab" onclick="showPanel('gql-update',this)">Ažuriraj</button>
-        <button class="section-tab" onclick="showPanel('gql-delete',this)">Obriši</button>
+        <button class="section-tab gql-mutation-tab" id="gql-tab-create" onclick="showPanel('gql-create',this)">Kreiraj</button>
+        <button class="section-tab gql-mutation-tab" id="gql-tab-update" onclick="showPanel('gql-update',this)">Ažuriraj</button>
+        <button class="section-tab gql-mutation-tab" id="gql-tab-delete" onclick="showPanel('gql-delete',this)">Obriši</button>
       </div>
       <div class="section-panel active" id="panel-gql-all">
         <div class="card">
@@ -442,45 +442,66 @@ body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;backg
 
 <script>
 const API = '';
-let token = localStorage.getItem('token');
-let refreshToken = localStorage.getItem('refreshToken');
+let token = null; // access token lives in memory only — never in localStorage
 let userRole = localStorage.getItem('userRole');
 let username = localStorage.getItem('username');
 
-if (token) enterApp();
+// On page load: if we have stored user info, attempt a silent refresh using the HttpOnly cookie
+if (userRole && username) silentRefresh();
 
 function authH() {
   return {'Content-Type':'application/json','Authorization':'Bearer '+token};
+}
+
+async function silentRefresh() {
+  try {
+    const res = await fetch(API+'/api/auth/refresh',{method:'POST',credentials:'include'});
+    if (!res.ok) throw new Error('Silent refresh failed');
+    const data = await res.json();
+    token = data.accessToken;
+    userRole = data.role;
+    enterApp();
+  } catch(e) {
+    userRole=null; username=null;
+    localStorage.clear();
+  }
 }
 
 async function doLogin() {
   const u = document.getElementById('login-user').value;
   const p = document.getElementById('login-pass').value;
   try {
-    const res = await fetch(API+'/api/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:u,password:p})});
+    const res = await fetch(API+'/api/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:u,password:p}),credentials:'include'});
     const data = await res.json();
     if (!res.ok) { document.getElementById('login-error').textContent = data.error || 'Greška'; return; }
-    token = data.accessToken; refreshToken = data.refreshToken; userRole = data.role; username = u;
-    localStorage.setItem('token',token); localStorage.setItem('refreshToken',refreshToken);
-    localStorage.setItem('userRole',userRole); localStorage.setItem('username',username);
+    token = data.accessToken; userRole = data.role; username = u;
+    // Refresh token is in HttpOnly cookie — not accessible to JS
+    localStorage.setItem('userRole',userRole);
+    localStorage.setItem('username',username);
     enterApp();
   } catch(e) { document.getElementById('login-error').textContent = 'Greška: '+e.message; }
 }
 
 async function doRefresh() {
   try {
-    const res = await fetch(API+'/api/auth/refresh',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({refreshToken})});
+    const res = await fetch(API+'/api/auth/refresh',{method:'POST',credentials:'include'});
+    if (!res.ok) throw new Error('Refresh failed');
     const data = await res.json();
-    if (res.ok) { token = data.accessToken; refreshToken = data.refreshToken; localStorage.setItem('token',token); localStorage.setItem('refreshToken',refreshToken); }
-    else doLogout();
-  } catch(e) { doLogout(); }
+    token = data.accessToken;
+    alert('Token refreshed successfully!');
+  } catch(e) { alert('Token refresh failed: ' + e.message); doLogout(); }
 }
 
-function doLogout() {
-  token=null;refreshToken=null;userRole=null;username=null;
+async function doLogout() {
+  try {
+    await fetch(API+'/api/auth/logout',{method:'POST',credentials:'include'});
+  } catch(e) { /* ignore network errors — still clear local state */ }
+  token=null; userRole=null; username=null;
   localStorage.clear();
   document.getElementById('app').style.display='none';
   document.getElementById('login-screen').style.display='flex';
+  document.getElementById('tab-manage').classList.remove('locked');
+  document.getElementById('tab-import').classList.remove('locked');
 }
 
 function enterApp() {
@@ -490,10 +511,10 @@ function enterApp() {
   const rt = document.getElementById('role-tag');
   if (userRole==='FULL_ACCESS') { rt.textContent='FULL'; rt.className='role-tag full'; }
   else { rt.textContent='READ'; rt.className='role-tag read'; }
-  if (userRole!=='FULL_ACCESS') {
-    document.getElementById('tab-manage').classList.add('locked');
-    document.getElementById('tab-import').classList.add('locked');
-  }
+  const isFull = userRole==='FULL_ACCESS';
+  document.getElementById('tab-manage').classList.toggle('locked', !isFull);
+  document.getElementById('tab-import').classList.toggle('locked', !isFull);
+  document.querySelectorAll('.gql-mutation-tab').forEach(t => t.style.display = isFull ? '' : 'none');
   fetchMode();
   updateIndicator();
 }

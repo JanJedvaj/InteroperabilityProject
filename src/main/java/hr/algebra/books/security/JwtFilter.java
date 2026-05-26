@@ -32,6 +32,13 @@ public class JwtFilter extends OncePerRequestFilter {
             String token = authHeader.substring(7);
 
             if (jwtService.isTokenValid(token)) {
+                io.jsonwebtoken.Claims claims = jwtService.extractClaims(token);
+                String type = claims.get("type", String.class);
+                if (!"access".equals(type)) {
+                    filterChain.doFilter(request, response);
+                    return;
+                }
+
                 String username = jwtService.extractUsername(token);
                 String role = jwtService.extractRole(token);
 

@@ -4,16 +4,44 @@
     <xs:element name="book">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="title" type="nonEmptyString"/>
-                <xs:element name="description" type="xs:string" minOccurs="0"/>
-                <xs:element name="pageCount" type="xs:int" minOccurs="0"/>
-                <xs:element name="excerpt" type="xs:string" minOccurs="0"/>
-                <xs:element name="publishDate" type="xs:string" minOccurs="0"/>
+                <xs:element name="title" type="titleString"/>
+                <xs:element name="description" type="descriptionString" minOccurs="0"/>
+                <xs:element name="pageCount" minOccurs="0">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:int">
+                            <xs:minInclusive value="0"/>
+                            <xs:maxInclusive value="10000"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+                <xs:element name="excerpt" type="excerptString" minOccurs="0"/>
+                <xs:element name="publishDate" type="publishDateString" minOccurs="0"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
 
-    <xs:simpleType name="nonEmptyString">
+    <xs:simpleType name="titleString">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="255"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="descriptionString">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="10"/>
+            <xs:maxLength value="2000"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="excerptString">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="10"/>
+            <xs:maxLength value="4000"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="publishDateString">
         <xs:restriction base="xs:string">
             <xs:minLength value="1"/>
         </xs:restriction>
