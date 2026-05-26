@@ -7,23 +7,30 @@
     "title": {
       "type": "string",
       "minLength": 1,
+      "maxLength": 255,
       "description": "Naslov knjige"
     },
     "description": {
       "type": "string",
+      "minLength": 10,
+      "maxLength": 2000,
       "description": "Opis knjige"
     },
     "pageCount": {
       "type": "integer",
       "minimum": 0,
+      "maximum": 10000,
       "description": "Broj stranica"
     },
     "excerpt": {
       "type": "string",
+      "minLength": 10,
+      "maxLength": 4000,
       "description": "Izvadak iz knjige"
     },
     "publishDate": {
       "type": "string",
+      "minLength": 1,
       "description": "Datum objave"
     }
   },
